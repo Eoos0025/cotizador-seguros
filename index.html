@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Cotizador de seguros | SEGUROS NUR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap">
+<style>
+/* ============ ESTILOS ============ */
+:root{--bg:#f8fafc;--ink:#0f172a;--slate:#475569;--mute:#64748b;--muted:#64748b;--line:#e2e8f0;--line-2:#cbd5e1;
+--teal:#097b8f;--teal-deep:#064f5c;--teal-tint:#e6f4f6;--navy:#0b2a3c;--navy-2:#0e3a4f;--mint:#10b981;--mint-ink:#047857;--gold:#d0a862;--sand:#d0a862;--sand-tint:#f8f1e1;--err:#b3261e;
+--r:16px;--ease:cubic-bezier(.4,0,.2,1);
+--sh-1:0 1px 2px rgba(15,23,42,.04),0 8px 24px -14px rgba(15,23,42,.14);
+--sh-2:0 2px 4px rgba(15,23,42,.05),0 22px 44px -20px rgba(9,123,143,.38);
+--sans:"Plus Jakarta Sans","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+--serif:"Playfair Display",Georgia,"Times New Roman",serif}
+*{box-sizing:border-box}
+html{scroll-padding-top:88px}
+body{margin:0;position:relative;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+radial-gradient(900px 520px at 105% -8%,rgba(9,123,143,.11),transparent 60%),
+radial-gradient(720px 440px at -10% 10%,rgba(208,168,98,.13),transparent 60%),
+radial-gradient(620px 420px at 55% 112%,rgba(16,185,129,.08),transparent 60%)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+
+/* Encabezado */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.84);-webkit-backdrop-filter:saturate(1.4) blur(14px);backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid var(--line)}
+.top::after{content:"";display:block;height:2px;background:linear-gradient(90deg,var(--teal),var(--mint) 45%,var(--gold))}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:12px}
+.brand{display:flex;align-items:center;gap:14px}
+.logo{height:44px;width:auto;max-width:170px;object-fit:contain;display:block}
+.logo[hidden],.mark[hidden]{display:none}
+.mark{width:44px;height:44px;display:grid;place-items:center;border-radius:12px;color:#fff;font:700 24px var(--serif);background:linear-gradient(135deg,var(--teal),var(--teal-deep));box-shadow:0 8px 18px -8px rgba(9,123,143,.7)}
+.brand strong{display:block;font:700 1.05rem/1.2 var(--sans);letter-spacing:.07em;color:var(--navy)}
+.brand small{color:var(--mute);font-size:.8rem}
+.badge{background:var(--sand-tint);color:#6b4e0f;border:1px solid var(--gold);padding:5px 14px;border-radius:99px;font-size:.82rem;font-weight:700}
+.badge[hidden]{display:none}
+
+/* Presentación */
+.hero{position:relative;padding:44px 0 6px}
+.hero::after{content:"";position:absolute;right:0;top:6px;width:360px;height:190px;pointer-events:none;opacity:.55;
+background:repeating-linear-gradient(45deg,rgba(9,123,143,.35) 0 1px,transparent 1px 22px),repeating-linear-gradient(-45deg,rgba(208,168,98,.5) 0 1px,transparent 1px 22px);
+-webkit-mask-image:radial-gradient(closest-side,#000 25%,transparent);mask-image:radial-gradient(closest-side,#000 25%,transparent)}
+h1{position:relative;z-index:1;font:700 clamp(2rem,4.2vw,3.1rem)/1.1 var(--serif);letter-spacing:-.01em;color:var(--navy);margin:0 0 10px;max-width:18ch}
+h1::after{content:"";display:block;width:60px;height:3px;border-radius:3px;margin-top:16px;background:linear-gradient(90deg,var(--gold),var(--mint))}
+.intro{position:relative;z-index:1;margin:0;color:var(--slate);max-width:62ch;font-size:1.05rem}
+
+/* Paneles y formularios */
+.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;margin:24px 0;box-shadow:var(--sh-1)}
+.panel h2{font:700 1.25rem var(--serif);margin:0 0 16px;color:var(--navy)}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.lbl{display:block;font-weight:600;font-size:.86rem;color:var(--slate);margin-bottom:6px}
+input[type=text],input[type=date]{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:#fff;padding:11px 13px;border:1px solid var(--line-2);border-radius:10px;transition:border-color .2s var(--ease),box-shadow .25s var(--ease)}
+input[type=text]:hover,input[type=date]:hover{border-color:#94a3b8}
+input[type=text]:focus,input[type=date]:focus{outline:2px solid transparent;border-color:var(--teal);box-shadow:0 0 0 4px rgba(9,123,143,.16)}
+input[aria-invalid=true]{border-color:var(--err)}
+input[aria-invalid=true]:focus{box-shadow:0 0 0 4px rgba(179,38,30,.14)}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:8px}
+.opts{display:flex;gap:10px;flex-wrap:wrap}
+.opt,.chk{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--line-2);border-radius:12px;cursor:pointer;background:#fff;font-size:.92rem;transition:border-color .2s var(--ease),background .25s var(--ease),box-shadow .25s var(--ease),transform .2s var(--ease)}
+.opt:hover,.chk:hover{border-color:var(--teal);transform:translateY(-1px);box-shadow:0 8px 16px -10px rgba(9,123,143,.45)}
+.opt:has(input:checked),.chk:has(input:checked){border-color:var(--teal);background:linear-gradient(180deg,#f2fbfc,#e3f3f6);color:var(--teal-deep);font-weight:600}
+.opt:has(input:focus-visible),.chk:has(input:focus-visible){box-shadow:0 0 0 4px rgba(9,123,143,.24)}
+.opt input,.chk input{accent-color:var(--teal);width:17px;height:17px;margin:0}
+.inp{display:flex;align-items:stretch}
+.inp span{display:grid;place-items:center;padding:0 12px;background:var(--teal-tint);border:1px solid var(--line-2);border-right:0;border-radius:10px 0 0 10px;font-weight:700;font-size:.8rem;color:var(--teal-deep);letter-spacing:.04em}
+.inp span+input{border-radius:0 10px 10px 0}
+.msg{display:block;min-height:1.2em;font-size:.8rem;color:var(--mute);margin-top:4px}
+.msg.err{color:var(--err);font-weight:600}
+
+/* Estructura */
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 392px;gap:32px;align-items:start}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:24px}
+
+/* Tarjetas de producto */
+.card{position:relative;overflow:hidden;display:flex;flex-direction:column;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--sh-1);
+transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s var(--ease),background .35s var(--ease)}
+.card::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,var(--teal),var(--mint) 60%,var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .55s var(--ease)}
+.card:hover{transform:translateY(-4px);box-shadow:var(--sh-2);border-color:#b9dce2}
+.card[data-active=true]{border-color:rgba(9,123,143,.5);background:linear-gradient(180deg,#fff,#f4fafb);box-shadow:var(--sh-2)}
+.card[data-active=true]::before{transform:scaleX(1)}
+.card header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.card h3{margin:0;font:700 1.55rem/1.15 var(--serif);color:var(--navy)}
+.card header p{margin:2px 0 0;color:var(--mute);font-size:.86rem}
+.scope{margin:0;color:var(--slate);font-size:.88rem}
+.switch{position:relative;display:flex;align-items:center;gap:9px;cursor:pointer;font-weight:600;font-size:.86rem;color:var(--slate)}
+.switch input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.track{width:46px;height:26px;border-radius:99px;background:#cbd5e1;position:relative;flex:none;transition:background .35s var(--ease),box-shadow .35s var(--ease)}
+.track::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(15,23,42,.3);transition:transform .35s var(--ease)}
+.switch input:checked+.track{background:linear-gradient(135deg,var(--mint),var(--teal));box-shadow:0 0 0 4px rgba(16,185,129,.16)}
+.switch input:checked+.track::after{transform:translateX(20px)}
+.switch input:focus-visible+.track{outline:3px solid var(--teal);outline-offset:3px}
+fieldset{border:0;margin:0;padding:0;min-width:0;display:grid;gap:14px;transition:opacity .4s var(--ease),filter .4s var(--ease)}
+fieldset:disabled{opacity:.42;filter:saturate(.5)}
+.result{margin-top:auto;border-top:1px dashed var(--line-2);padding-top:14px;font-size:.92rem}
+.result .empty{margin:0;color:var(--mute)}
+.prem{display:flex;justify-content:space-between;align-items:baseline;gap:8px;color:var(--slate)}
+.prem strong{font:700 1.75rem var(--serif);color:var(--teal-deep)}
+.parts{list-style:none;margin:6px 0;padding:0;font-size:.8rem;color:var(--mute)}
+.parts li{display:flex;justify-content:space-between;gap:8px}
+.plan{display:grid;gap:4px;margin:10px 0 0}
+.plan div{display:flex;justify-content:space-between;gap:8px}
+.plan dt{color:var(--mute)}
+.plan dd{margin:0;font-weight:700;color:var(--navy);font-variant-numeric:tabular-nums}
+
+/* Resumen lateral */
+.summary{position:sticky;top:88px;color:#fff;border-radius:var(--r);padding:28px;border:1px solid rgba(255,255,255,.08);
+background:radial-gradient(420px 260px at 100% 0%,rgba(16,185,129,.24),transparent 65%),radial-gradient(360px 240px at 0% 100%,rgba(208,168,98,.18),transparent 60%),linear-gradient(160deg,var(--navy-2),var(--navy));
+box-shadow:0 26px 50px -26px rgba(11,42,60,.7);transition:box-shadow .35s var(--ease),transform .35s var(--ease)}
+.summary:hover{box-shadow:0 30px 60px -24px rgba(11,42,60,.8)}
+.summary h2{margin:0 0 6px;font:700 1.4rem var(--serif)}
+.summary .lead,.summary .fine{font-size:.8rem;color:#cbd5e1;margin:0 0 12px}
+.summary .empty{margin:8px 0 0;color:#cbd5e1}
+.pay{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:16px 18px;margin:12px 0}
+.pay span{display:block;font-size:.82rem;color:#cbd5e1}
+.big{display:block;font:700 2.25rem/1.1 var(--serif);color:var(--gold);font-variant-numeric:tabular-nums}
+.srows{margin:0 0 12px;display:grid;gap:7px;font-size:.88rem}
+.srows div{display:flex;justify-content:space-between;gap:10px}
+.srows dt{color:#cbd5e1}
+.srows dd{margin:0;font-weight:700;font-variant-numeric:tabular-nums;text-align:right}
+.save{font-size:.83rem;background:rgba(16,185,129,.14);color:#a7f3d0;border:1px solid rgba(16,185,129,.35);border-radius:10px;padding:8px 12px;margin:0 0 12px}
+.mini{width:100%;border-collapse:collapse;font-size:.8rem;margin-bottom:10px}
+.mini th,.mini td{padding:6px 4px;border-bottom:1px solid rgba(255,255,255,.14);text-align:right;font-variant-numeric:tabular-nums}
+.mini th:first-child{text-align:left}
+.actions{display:grid;gap:10px;margin-top:16px}
+.btn{font:inherit;font-weight:700;padding:12px 16px;border-radius:12px;border:1px solid transparent;cursor:pointer;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s var(--ease),filter .25s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn.pri{background:linear-gradient(135deg,#e6c98e,var(--gold));color:var(--navy);box-shadow:0 10px 22px -10px rgba(208,168,98,.85)}
+.btn.pri:hover{filter:brightness(1.05);box-shadow:0 16px 28px -10px rgba(208,168,98,.95)}
+.btn.sec{background:transparent;color:#fff;border-color:rgba(255,255,255,.38)}
+.btn.sec:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.6)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:disabled:hover{transform:none;filter:none;box-shadow:none}
+.hint{font-size:.8rem;margin:0;color:#cbd5e1;min-height:1.2em}
+
+/* Detalle de coberturas */
+#h-det{font:700 1.6rem var(--serif)}
+.det summary{display:flex;align-items:baseline;gap:12px;cursor:pointer;font:700 1.25rem var(--serif);color:var(--navy)}
+.det summary small{font:500 .86rem var(--sans);color:var(--mute)}
+.scroll{overflow-x:auto;margin-top:12px}
+.cov{width:100%;border-collapse:collapse;font-size:.88rem;min-width:520px}
+.cov th,.cov td{border-bottom:1px solid var(--line);padding:10px;text-align:left;vertical-align:top}
+.cov thead th{background:#f1f5f9;color:var(--navy);font-size:.8rem;letter-spacing:.02em}
+.cov tbody th{font-weight:600}
+.cov tbody tr{transition:background .2s}
+.cov tbody tr:hover{background:#f8fafc}
+.cov small{display:block;color:var(--mute)}
+.cov tr.off th,.cov tr.off td{color:var(--mute);background:#f8fafc;font-weight:400}
+.ben{margin:12px 0 0;padding-left:18px;font-size:.88rem;color:var(--slate)}
+.empty{color:var(--mute)}
+.dec{font-size:.88rem;color:var(--slate)}
+.dec summary{cursor:pointer;font-weight:700;color:var(--teal-deep)}
+
+/* Proforma */
+.overlay{position:fixed;inset:0;z-index:50;overflow:auto;padding:20px;background:rgba(11,42,60,.78);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.overlay[hidden]{display:none}
+.bar{max-width:840px;margin:0 auto 14px;display:flex;gap:10px;justify-content:flex-end}
+.bar .btn.sec{background:rgba(11,42,60,.55)}
+.sheet{max-width:840px;margin:0 auto;background:#fff;color:#0f172a;padding:34px 38px;border-radius:14px;font-size:.9rem;box-shadow:0 30px 70px -30px rgba(0,0,0,.6)}
+.sheet .ph{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#fff;padding:16px 20px;margin:-34px -38px 20px;border-radius:14px 14px 0 0;border-bottom:4px solid var(--gold);background:linear-gradient(135deg,var(--navy-2),var(--navy));-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet .ph strong{font-size:1.2rem;letter-spacing:.07em}
+.sheet h3{font:700 1.15rem var(--serif);color:var(--navy);margin:20px 0 8px;border-bottom:2px solid var(--gold);padding-bottom:4px}
+.sheet .warn{border:2px dashed #a0791f;background:var(--sand-tint);padding:8px 12px;font-weight:700;color:#5b4310;margin-bottom:12px;border-radius:8px}
+.sheet .meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 16px}
+.sheet .meta dt{font-size:.75rem;color:var(--mute)}
+.sheet .meta dd{margin:0;font-weight:600}
+.sheet .prod{break-inside:avoid-page}
+.sheet .kv{display:flex;justify-content:space-between;gap:12px;padding:4px 0;border-bottom:1px solid var(--line)}
+.sheet .tbl{width:100%;border-collapse:collapse;font-size:.85rem}
+.sheet .tbl th,.sheet .tbl td{padding:7px;border-bottom:1px solid var(--line-2);text-align:right}
+.sheet .tbl th:first-child,.sheet .tbl td:first-child{text-align:left}
+.sheet .tbl thead th{background:#f1f5f9;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet .tbl tfoot td{font-weight:700;border-top:2px solid var(--teal)}
+.sheet .parts{color:#334155}
+.sheet .notes{font-size:.8rem;color:#334155;padding-left:18px}
+.sheet .sign{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:38px;font-size:.8rem;text-align:center}
+.sheet .sign div{border-top:1px solid #334155;padding-top:4px}
+
+@media (max-width:1000px){.layout{grid-template-columns:1fr}.summary{position:static}.sheet .meta{grid-template-columns:1fr 1fr}.hero::after{opacity:.3}}
+@media (max-width:560px){.wrap{padding:0 14px}.card,.panel{padding:20px}.summary{padding:22px}.sheet{padding:22px 18px}.sheet .ph{margin:-22px -18px 16px}.hero::after{display:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}.card:hover,.btn:hover{transform:none}}
+@media print{
+  body::before{display:none}
+  body.modal-open>:not(#proforma){display:none!important}
+  .no-print{display:none!important}
+  .overlay{position:static;inset:auto;overflow:visible;padding:0;background:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .sheet{max-width:none;padding:0;border-radius:0;box-shadow:none}
+  .sheet .ph{margin:0 0 14px;border-radius:0}
+  .sheet .tbl tr,.sheet .cov tr{break-inside:avoid}
+  @page{margin:14mm}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><img class="logo" src="./public/logo.png" alt="" width="44" height="44" decoding="async" onerror="if(!this.dataset.t){this.dataset.t=1;this.src='./logo.png'}else{this.hidden=true;this.nextElementSibling.hidden=false}"><span class="mark" aria-hidden="true" hidden>N</span><div><strong>SEGUROS NUR</strong><small>Cotizador de seguros</small></div></div>
+    <span id="exampleBadge" class="badge" hidden>Datos de ejemplo: solo demostración</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+  <h1>Cotizador integral de seguros</h1>
+  <p class="intro">Incluye los productos que necesitas, completa los datos y revisa primas, coberturas y cuotas al instante. Todas las primas son anuales.</p>
+  </div>
+
+  <form id="quoteForm" autocomplete="off" novalidate>
+    <section class="panel" aria-labelledby="h-datos">
+      <h2 id="h-datos">Datos de la cotización</h2>
+      <div class="grid4">
+        <div><label class="lbl" for="client">Cliente</label><input type="text" id="client" maxlength="120"></div>
+        <div><label class="lbl" for="clientDoc">Documento de identidad</label><input type="text" id="clientDoc" maxlength="40"></div>
+        <div><label class="lbl" for="exec">Ejecutivo comercial</label><input type="text" id="exec" maxlength="120"></div>
+        <div><label class="lbl" for="issue">Fecha de emisión</label><input type="date" id="issue"><small class="msg" id="expiryMsg"></small></div>
+      </div>
+      <div style="margin-top:14px" role="radiogroup" aria-labelledby="payLbl">
+        <span class="lbl" id="payLbl">Forma de pago</span>
+        <div class="opts" id="payOpts"></div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section aria-label="Productos"><div class="cards" id="cards"></div></section>
+      <aside class="summary" aria-label="Resumen consolidado">
+        <div id="sumBody" aria-live="polite"></div>
+        <div class="actions no-print">
+          <button type="button" class="btn pri" id="btnProforma" aria-describedby="issueHint">Generar proforma</button>
+          <p class="hint" id="issueHint"></p>
+          <button type="button" class="btn sec" id="btnExample">Cargar ejemplo demostrativo</button>
+          <button type="reset" class="btn sec" id="btnReset">Limpiar todo</button>
+        </div>
+      </aside>
+    </div>
+  </form>
+
+  <section aria-labelledby="h-det" style="margin-top:28px">
+    <h2 id="h-det" style="color:var(--teal-deep);margin:0">Coberturas, límites y deducibles</h2>
+    <div id="detail"></div>
+  </section>
+
+  <details class="panel dec"><summary>Supuestos y decisiones de implementación</summary><ul id="decisions"></ul></details>
+</main>
+
+<div id="proforma" class="overlay" hidden role="dialog" aria-modal="true" aria-label="Proforma comercial">
+  <div class="bar no-print">
+    <button type="button" class="btn pri" id="btnPrint">Imprimir o guardar PDF</button>
+    <button type="button" class="btn sec" id="btnClose">Cerrar</button>
+  </div>
+  <article class="sheet" id="sheet"></article>
+</div>
+
+<script>
+/* ============ 1. CONFIGURACIÓN ============
+   Única fuente de tasas, límites, deducibles y reglas.
+   Origen: especificaciones_tecnicas.txt (Cotizador_de_Seguros_NUR.xlsx).
+   Cambiar un valor aquí actualiza cálculo, pantalla y proforma. */
+'use strict';
+const deepFreeze = o => { Object.values(o).forEach(v => v && typeof v === 'object' && deepFreeze(v)); return Object.freeze(o); };
+
+const CONFIG = deepFreeze({
+  locale: 'es-BO',
+  // modo: 'half-up' | 'floor' | 'ceil' | 'none'. Se aplica a cada importe derivado.
+  rounding: { mode: 'half-up', decimals: 2 },
+  validityDays: 30,
+  financing: { surcharge: 0.10, downPct: 0.30, installments: 5 },
+  validation: { maxAmount: 1e12 }, // tope técnico anti-desborde, no es una regla de negocio
+  payments: [{ value: 'cash', label: 'Contado' }, { value: 'credit', label: 'Crédito' }],
+  defaultPayment: 'cash',
+  order: ['carnur', 'hogar', 'invenur', 'blindado'],
+
+  // Valores de ejemplo tomados de la especificación. Son DEMOSTRATIVOS.
+  example: {
+    client: { name: 'Fundación Amigos de la Naturaleza', doc: '1028392021', exec: 'Carlos Mendoza' },
+    payment: 'cash',
+    values: {
+      carnur: { value: 35000, rate: 'standard', occupants: 5 },
+      hogar: { building: 120000, contents: 30000 },
+      invenur: { inventory: 180000, transit: true, perishables: true },
+      blindado: { funds: 75000, fidelity: true, forgery: true }
+    }
+  },
+
+  products: {
+    carnur: {
+      name: 'CARNUR', title: 'Seguro vehicular',
+      blurb: 'Pérdida total, robo parcial, responsabilidad civil y accidentes personales de ocupantes.',
+      rates: { standard: 0.032, preferential: 0.029 },
+      spareParts: 0.80, rcExtra: 30000, rcConseq: 3000,
+      personal: { death: 3000, medical: 300, funeral: 300 },
+      franchise: { amount: 1000, cur: 'Bs' },
+      fields: [
+        { key: 'value', type: 'money', cur: 'USD', label: 'Valor comercial del vehículo' },
+        { key: 'rate', type: 'radio', label: 'Tasa de prima', options: [{ value: 'standard', label: 'Estándar' }, { value: 'preferential', label: 'Preferencial' }] },
+        { key: 'occupants', type: 'int', label: 'Ocupantes según RUAT (informativo, no modifica la prima)' }
+      ],
+      benefits: ['Auxilio y grúa 24/7, gratuito e ilimitado', 'Extraterritorialidad limítrofe sin costo', 'Tolerancia de 30 días para licencia vencida']
+    },
+    hogar: {
+      name: 'NUR HOGAR', title: 'Seguro de vivienda',
+      blurb: 'Multirriesgo residencial para edificio y contenido, con responsabilidad civil familiar.',
+      rateBuilding: 0.003, rateContents: 0.005,
+      theft: { pct: 0.50, cap: 10000 }, rcFamily: { pct: 0.20, cap: 20000 },
+      ded: { contents: 100, theft: 150 }, assist: { cost: 50, max: 3 },
+      fields: [
+        { key: 'building', type: 'money', cur: 'USD', label: 'Valor de reposición del edificio' },
+        { key: 'contents', type: 'money', cur: 'USD', label: 'Valor estimado del contenido' }
+      ],
+      benefits: ['Asistencia de emergencia: plomería, cerrajería, electricidad y vidriería', 'Riesgos: incendio, rayo, explosión, cortocircuito, vientos fuertes, granizo, inundación, robo con fuerza y rotura de tuberías']
+    },
+    invenur: {
+      name: 'INVENUR', title: 'Seguro de inventario y mercancías',
+      blurb: 'Multirriesgo de almacén a costo de reposición, con tránsito y perecederos opcionales.',
+      base: 0.004, transit: 0.001, perishables: 0.0008,
+      theft: { pct: 0.25, cap: 50000 }, perish: { pct: 0.15, cap: 20000 }, rcProducts: { pct: 0.20, cap: 100000 },
+      ded: { theft: 500, perish: 200 },
+      fields: [
+        { key: 'inventory', type: 'money', cur: 'USD', label: 'Valor de reposición del inventario' },
+        { key: 'transit', type: 'check', label: 'Incluir mercancías en tránsito', rateKey: 'transit' },
+        { key: 'perishables', type: 'check', label: 'Incluir deterioro de perecederos', rateKey: 'perishables' }
+      ],
+      benefits: ['Cláusula de variación estacional: aumento automático del inventario en temporada alta sin recargo (porcentaje y periodo según póliza)', 'Riesgos: incendio, rayo, explosión, colapso de estanterías, robo con violencia, vandalismo, lluvias, inundaciones y rotura de cadena de frío']
+    },
+    blindado: {
+      name: 'NUR BLINDADO', title: 'Seguro de fondos monetarios',
+      blurb: 'Fondos en tránsito, en caja fuerte y en manos de mensajeros, con riders opcionales.',
+      base: 0.012, fidelity: 0.0025, forgery: 0.001,
+      transit: { pct: 0.30, cap: 20000 }, local: { pct: 0.50, cap: 30000 }, courier: { pct: 0.15, cap: 10000 },
+      fidelityCov: { pct: 0.20, cap: 15000 }, forgeryCov: { pct: 0.10, cap: 5000 },
+      ded: { local: { pct: 0.10, min: 1000 }, transit: { pct: 0.05, min: 500 }, courier: { pct: 0.05 }, fidelity: { pct: 0.20 }, forgery: { pct: 0.10 } },
+      fields: [
+        { key: 'funds', type: 'money', cur: 'USD', label: 'Monto máximo declarado de fondos' },
+        { key: 'fidelity', type: 'check', label: 'Incluir infidelidad de empleados', rateKey: 'fidelity' },
+        { key: 'forgery', type: 'check', label: 'Incluir falsificación de moneda', rateKey: 'forgery' }
+      ],
+      benefits: ['Asistencia jurídica penal y legal especializada incluida', 'Protección contra extorsión incluida', 'Riesgos: robo y asalto a mano armada, asalto en local o caja fuerte, fraude de empleados y falsificación (riders opcionales)']
+    }
+  },
+
+  decisions: [
+    'Redondeo configurable (CONFIG.rounding). Por defecto: mitad hacia arriba a 2 decimales, aplicado a cada importe derivado sobre valores ya redondeados (prima, recargo, inicial, saldo, cuota, sublímites). Las cuotas no reparten diferencias de centavos: si 5 cuotas no suman el saldo exacto, la proforma muestra la diferencia.',
+    'La forma de pago es única para toda la cotización y solo admite Contado o Crédito (por defecto, Contado).',
+    'Los importes deben ser mayores que 0. La especificación no define rangos de negocio; el tope de 1e12 es solo técnico.',
+    'La tasa de CARNUR no tiene valor por defecto: debe elegirse explícitamente. Los ocupantes RUAT son informativos.',
+    'Vencimiento = fecha de emisión + 30 días calendario. No se define hora de corte ni invalidación automática de cotizaciones vencidas.',
+    'Se conservan USD y Bs según el parámetro. No hay conversión cambiaria porque no existe una regla aprobada.',
+    'No se agregan intereses, impuestos, comisiones ni cargos. Los beneficios «sin denuncia bajo USD 1.000» y el método PEPS/UEPS no se muestran porque requieren confirmación contractual.',
+    'La suma asegurada combinada es un indicador aritmético de categorías distintas, no una suma asegurada única.',
+    'Los datos de ejemplo se identifican como tales en pantalla y en la proforma. Nada se guarda ni se envía: todo ocurre en el navegador.'
+  ]
+});
+</script>
+
+<script>
+/* ============ 2. FORMATO Y VISTAS COMPARTIDAS (pantalla y proforma) ============ */
+'use strict';
+const Fmt = (() => {
+  const L = CONFIG.locale, d = CONFIG.rounding.decimals;
+  const nf = new Intl.NumberFormat(L, { minimumFractionDigits: d, maximumFractionDigits: d, useGrouping: 'always' });
+  const rate = new Intl.NumberFormat(L, { minimumFractionDigits: 2, maximumFractionDigits: 4 });
+  const free = new Intl.NumberFormat(L, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  const ESC = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  return {
+    num: n => nf.format(n),
+    money: (n, cur = 'USD') => `${cur}\u00a0${nf.format(n)}`,
+    rate: x => rate.format(x * 100) + '%',
+    pct: x => free.format(x * 100) + '%',
+    date: iso => (iso ? iso.split('-').reverse().join('/') : '—'),
+    esc: s => String(s ?? '').replace(/[&<>"']/g, c => ESC[c])
+  };
+})();
+
+const View = (() => {
+  const m = Fmt.money, e = Fmt.esc;
+  const limit = l => {
+    if (l.text) return e(l.text);
+    let sub = '';
+    if (l.amount != null && l.pct != null) sub = l.cap != null ? `menor entre ${Fmt.pct(l.pct)} ${l.of} y ${m(l.cap, l.cur)}` : `${Fmt.pct(l.pct)} ${l.of}`;
+    else if (l.amount == null) sub = l.of;
+    if (l.per) sub = sub ? `${sub}, ${l.per}` : l.per;
+    const main = l.amount != null ? m(l.amount, l.cur) : Fmt.pct(l.pct);
+    return `<strong>${main}</strong>${sub ? `<small>${e(sub)}</small>` : ''}`;
+  };
+  const ded = d => {
+    if (d.text) return e(d.text);
+    if (d.pct != null) return Fmt.pct(d.pct) + (d.min != null ? `, mínimo ${m(d.min, d.cur)}` : '');
+    return m(d.fixed, d.cur) + (d.note ? `<small>${e(d.note)}</small>` : '');
+  };
+  const table = q => `<div class="scroll"><table class="cov"><thead><tr><th scope="col">Cobertura</th><th scope="col">Límite</th><th scope="col">Deducible o franquicia</th></tr></thead><tbody>${
+    q.coverages.map(c => c.incl
+      ? `<tr><th scope="row">${e(c.name)}</th><td>${limit(c.limit)}</td><td>${ded(c.ded)}</td></tr>`
+      : `<tr class="off"><th scope="row">${e(c.name)}</th><td colspan="2">No incluido</td></tr>`).join('')
+  }</tbody></table></div>`;
+  const parts = q => `<ul class="parts">${q.parts.map(x => `<li><span>${e(x.label)}</span><span>${m(x.base)} × ${Fmt.rate(x.rate)}</span></li>`).join('')}</ul>`;
+  const benefits = q => `<ul class="ben">${q.benefits.map(b => `<li>${e(b)}</li>`).join('')}</ul>`;
+  return { table, parts, benefits };
+})();
+</script>
+<!-- Autoría y protección de propiedad intelectual: mfmv2026 -->
+
+<script>
+/* ============ 3. LÓGICA DE CÁLCULO (funciones puras, sin DOM) ============ */
+'use strict';
+const Calc = (() => {
+  const clean = x => Number(Number(x).toPrecision(15)); // elimina ruido binario (1120.0000000000002)
+
+  const round = (x, { mode, decimals }) => {
+    if (mode === 'none') return clean(x);
+    const fn = { 'half-up': Math.round, floor: Math.floor, ceil: Math.ceil }[mode];
+    if (!fn) throw new RangeError('Modo de redondeo no válido: ' + mode);
+    const f = 10 ** decimals;
+    return fn(clean(x * f)) / f;
+  };
+
+  /* Importes: coma = decimal. Con solo punto, «35.000» se lee como miles y «35000.50» como decimal.
+     Devuelve null (vacío), NaN (inválido) o un número. */
+  const parseAmount = s => {
+    let t = String(s ?? '').replace(/\s/g, '');
+    if (t === '') return null;
+    if (!/^[0-9.,]+$/.test(t)) return NaN;
+    const c = t.lastIndexOf(','), d = t.lastIndexOf('.');
+    if (c >= 0 && d >= 0) {
+      const dec = c > d ? ',' : '.', mil = dec === ',' ? '.' : ',';
+      t = t.split(mil).join('').replace(dec, '.');
+    } else if (c >= 0) {
+      if (t.indexOf(',') !== c) return NaN;
+      t = t.replace(',', '.');
+    } else if (d >= 0 && /^\d{1,3}(\.\d{3})+$/.test(t)) t = t.replace(/\./g, '');
+    return /^\d+(\.\d+)?$/.test(t) ? Number(t) : NaN;
+  };
+
+  const parseISO = s => {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
+    if (!m) return null;
+    const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+    return d.getUTCFullYear() === +m[1] && d.getUTCMonth() === +m[2] - 1 && d.getUTCDate() === +m[3] ? d : null;
+  };
+  const addDays = (iso, n) => {
+    const d = parseISO(iso);
+    if (!d) return null;
+    d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
+  };
+
+  const validate = (fields, vals, cfg) => {
+    const err = {};
+    for (const f of fields) {
+      const v = vals[f.key], empty = v === null || v === undefined;
+      if (f.type === 'money') {
+        if (empty) err[f.key] = 'Campo obligatorio.';
+        else if (!Number.isFinite(v)) err[f.key] = 'Importe no válido. Usa números y coma para decimales.';
+        else if (v <= 0) err[f.key] = 'Ingresa un importe mayor que 0.';
+        else if (v > cfg.validation.maxAmount) err[f.key] = 'El importe es demasiado grande.';
+      } else if (f.type === 'int') {
+        if (empty) err[f.key] = 'Campo obligatorio.';
+        else if (!Number.isInteger(v) || v < 1) err[f.key] = 'Ingresa un número entero de 1 o más.';
+      } else if (f.type === 'radio') {
+        if (!f.options.some(o => o.value === v)) err[f.key] = 'Selecciona una opción.';
+      } else if (f.type === 'check' && typeof v !== 'boolean') err[f.key] = 'Valor no válido.';
+    }
+    return err;
+  };
+
+  const financing = (cash, cfg) => {
+    const f = cfg.financing, r = x => round(x, cfg.rounding);
+    const credit = r(cash * (1 + f.surcharge)), down = r(credit * f.downPct), balance = r(credit - down);
+    return { cash, credit, surcharge: r(credit - cash), down, balance, installment: r(balance / f.installments), installments: f.installments };
+  };
+
+  // Constructores de cobertura
+  const full = (amount, of, r) => ({ amount: r(amount), cur: 'USD', pct: 1, of });
+  const capped = (base, c, of, r, per) => ({ amount: r(Math.min(base * c.pct, c.cap)), cur: 'USD', pct: c.pct, of, cap: c.cap, per });
+  const fixed = (v, note, cur = 'USD') => ({ fixed: v, cur, note });
+  const NA = { text: 'No indicado' };
+  const cov = (name, limit, ded, incl = true) => ({ name, incl, limit, ded });
+
+  const builders = {
+    carnur: (v, p, r) => ({
+      insured: v.value,
+      parts: [{ label: 'Valor comercial del vehículo', base: v.value, rate: p.rates[v.rate] }],
+      coverages: [
+        cov('Pérdida total por accidente o robo', full(v.value, 'del valor comercial', r), NA),
+        cov('Robo parcial de repuestos', { pct: p.spareParts, of: 'del valor de partes/piezas' }, NA),
+        cov('Responsabilidad civil extracontractual', { amount: p.rcExtra, cur: 'USD', per: 'por evento' }, NA),
+        cov('Responsabilidad civil consecuencial', { amount: p.rcConseq, cur: 'USD', per: 'por evento' }, NA),
+        cov('Accidentes personales: muerte o invalidez', { amount: p.personal.death, cur: 'USD', per: `por ocupante (${v.occupants} según RUAT)` }, NA),
+        cov('Accidentes personales: gastos médicos', { amount: p.personal.medical, cur: 'USD', per: 'por ocupante' }, NA),
+        cov('Accidentes personales: gastos de sepelio', { amount: p.personal.funeral, cur: 'USD', per: 'por ocupante' }, NA),
+        cov('Franquicia mínima en siniestros', { text: 'No aplica' }, fixed(p.franchise.amount, null, p.franchise.cur))
+      ]
+    }),
+    hogar: (v, p, r) => ({
+      insured: v.building + v.contents,
+      parts: [
+        { label: 'Edificio', base: v.building, rate: p.rateBuilding },
+        { label: 'Contenido', base: v.contents, rate: p.rateContents }
+      ],
+      coverages: [
+        cov('Edificio: incendio, rayo y catástrofes', full(v.building, 'del valor declarado', r), fixed(0)),
+        cov('Contenido: incendio, rayo y catástrofes', full(v.contents, 'del valor declarado', r), fixed(p.ded.contents, 'por evento')),
+        cov('Robo de contenido', capped(v.contents, p.theft, 'del contenido', r), fixed(p.ded.theft, 'por evento')),
+        cov('Responsabilidad civil familiar', capped(v.building, p.rcFamily, 'del edificio', r), fixed(0)),
+        cov('Daños por agua e inundación', { text: 'Incluido, sin límite separado' }, NA),
+        cov('Asistencia en el hogar', { text: `Hasta ${p.assist.max} intervenciones al año` }, fixed(p.assist.cost, 'por intervención'))
+      ]
+    }),
+    invenur: (v, p, r) => ({
+      insured: v.inventory,
+      parts: [
+        { label: 'Almacén (tasa base)', base: v.inventory, rate: p.base },
+        ...(v.transit ? [{ label: 'Mercancías en tránsito', base: v.inventory, rate: p.transit }] : []),
+        ...(v.perishables ? [{ label: 'Deterioro de perecederos', base: v.inventory, rate: p.perishables }] : [])
+      ],
+      coverages: [
+        cov('Multirriesgo de almacén', full(v.inventory, 'del valor declarado', r), fixed(0)),
+        cov('Robo con violencia en almacén', capped(v.inventory, p.theft, 'del inventario', r), fixed(p.ded.theft)),
+        cov('Mercancías en tránsito (opcional)', { text: 'Límite específico no indicado' }, NA, v.transit),
+        cov('Deterioro de perecederos por frío (opcional)', capped(v.inventory, p.perish, 'del inventario', r), fixed(p.ded.perish), v.perishables),
+        cov('Responsabilidad civil de productos', capped(v.inventory, p.rcProducts, 'del inventario', r), fixed(0))
+      ]
+    }),
+    blindado: (v, p, r) => ({
+      insured: v.funds,
+      parts: [
+        { label: 'Fondos (tasa base)', base: v.funds, rate: p.base },
+        ...(v.fidelity ? [{ label: 'Rider de infidelidad', base: v.funds, rate: p.fidelity }] : []),
+        ...(v.forgery ? [{ label: 'Rider de falsificación', base: v.funds, rate: p.forgery }] : [])
+      ],
+      coverages: [
+        cov('Dinero en local o caja fuerte', capped(v.funds, p.local, 'de los fondos', r, 'acumulado local'), p.ded.local),
+        cov('Dinero en tránsito', capped(v.funds, p.transit, 'de los fondos', r, 'por viaje'), p.ded.transit),
+        cov('Dinero en manos de mensajero o cajero', capped(v.funds, p.courier, 'de los fondos', r, 'acumulado'), p.ded.courier),
+        cov('Infidelidad de empleados (rider)', capped(v.funds, p.fidelityCov, 'de los fondos', r, 'anual acumulado'), p.ded.fidelity, v.fidelity),
+        cov('Falsificación de moneda (rider)', capped(v.funds, p.forgeryCov, 'de los fondos', r, 'anual acumulado'), p.ded.forgery, v.forgery),
+        cov('Asistencia jurídica especializada', { text: 'Incluida' }, { text: 'Sin deducible' }),
+        cov('Protección contra extorsión', { text: 'Incluida, sin sublímite indicado' }, NA)
+      ]
+    })
+  };
+
+  const quote = (id, vals, cfg) => {
+    const p = cfg.products[id], errors = validate(p.fields, vals, cfg);
+    if (Object.keys(errors).length) return { id, name: p.name, valid: false, errors };
+    const r = x => round(x, cfg.rounding), b = builders[id](vals, p, r);
+    const premium = r(b.parts.reduce((s, x) => s + x.base * x.rate, 0));
+    return { id, name: p.name, title: p.title, benefits: p.benefits, valid: true, errors: {}, ...b, premium, fin: financing(premium, cfg) };
+  };
+
+  const consolidate = (qs, payment, cfg) => {
+    const r = x => round(x, cfg.rounding), sum = f => r(qs.reduce((s, q) => s + f(q), 0));
+    const cash = sum(q => q.fin.cash), credit = sum(q => q.fin.credit);
+    return {
+      count: qs.length, insured: sum(q => q.insured), cash, credit, surcharge: r(credit - cash),
+      down: sum(q => q.fin.down), balance: sum(q => q.fin.balance), installment: sum(q => q.fin.installment),
+      installments: cfg.financing.installments, payable: payment === 'credit' ? credit : cash
+    };
+  };
+
+  /* state = { payment, products: { id: { active, values } } } */
+  const run = (state, cfg) => {
+    if (!cfg.payments.some(x => x.value === state.payment)) throw new RangeError('Forma de pago no válida.');
+    const quotes = cfg.order.filter(id => state.products[id].active).map(id => quote(id, state.products[id].values, cfg));
+    return { quotes, totals: consolidate(quotes.filter(q => q.valid), state.payment, cfg) };
+  };
+
+  return { round, parseAmount, parseISO, addDays, validate, financing, quote, consolidate, run };
+})();
+</script>
+
+<script>
+/* ============ 4. PROFORMA COMERCIAL IMPRIMIBLE ============ */
+'use strict';
+const Proforma = (() => {
+  const m = Fmt.money, e = Fmt.esc, dash = v => e(v) || '—';
+
+  const render = ({ state, quotes, totals: t, issue, expiry, example }) => {
+    const credit = state.payment === 'credit', n = CONFIG.financing.installments;
+    const payLabel = CONFIG.payments.find(p => p.value === state.payment).label;
+    const c = state.client, r = x => Calc.round(x, CONFIG.rounding);
+    const gap = r(t.installment * n - t.balance);
+
+    const prodSection = q => `<section class="prod">
+      <h3>${e(q.name)}: ${e(q.title)}</h3>
+      <div class="kv"><span>Suma asegurada declarada</span><strong>${m(q.insured)}</strong></div>
+      ${View.parts(q)}
+      <div class="kv"><span>Prima anual al contado</span><strong>${m(q.fin.cash)}</strong></div>
+      <div class="kv"><span>Prima anual a crédito</span><strong>${m(q.fin.credit)}</strong></div>
+      ${View.table(q)}${View.benefits(q)}</section>`;
+
+    const row = q => `<tr><td>${e(q.name)}</td><td>${m(q.insured)}</td><td>${m(q.fin.cash)}</td><td>${m(q.fin.credit)}</td><td>${credit ? m(q.fin.down) : 'N/A'}</td><td>${credit ? m(q.fin.installment) : 'N/A'}</td></tr>`;
+
+    return `
+    <div class="ph"><strong>SEGUROS NUR</strong><span>Proforma comercial</span></div>
+    ${example ? '<p class="warn">COTIZACIÓN CON DATOS DE EJEMPLO. Solo para demostración; no constituye una oferta.</p>' : ''}
+    <dl class="meta">
+      <div><dt>Cliente</dt><dd>${dash(c.name)}</dd></div>
+      <div><dt>Documento de identidad</dt><dd>${dash(c.doc)}</dd></div>
+      <div><dt>Ejecutivo comercial</dt><dd>${dash(c.exec)}</dd></div>
+      <div><dt>Fecha de emisión</dt><dd>${Fmt.date(issue)}</dd></div>
+      <div><dt>Oferta firme hasta</dt><dd>${Fmt.date(expiry)} (${CONFIG.validityDays} días calendario)</dd></div>
+      <div><dt>Forma de pago</dt><dd>${payLabel}</dd></div>
+    </dl>
+    ${quotes.map(prodSection).join('')}
+    <h3>Resumen consolidado</h3>
+    <div class="scroll"><table class="tbl"><thead><tr><th scope="col">Producto</th><th scope="col">Suma asegurada</th><th scope="col">Prima contado</th><th scope="col">Prima crédito</th><th scope="col">Cuota inicial</th><th scope="col">Cuota mensual</th></tr></thead>
+      <tbody>${quotes.map(row).join('')}</tbody>
+      <tfoot><tr><td>Total</td><td>${m(t.insured)}</td><td>${m(t.cash)}</td><td>${m(t.credit)}</td><td>${credit ? m(t.down) : 'N/A'}</td><td>${credit ? m(t.installment) : 'N/A'}</td></tr></tfoot></table></div>
+    <h3>Plan de pago elegido: ${payLabel}</h3>
+    ${credit ? `
+      <div class="kv"><span>Prima total a crédito (contado + recargo de ${Fmt.pct(CONFIG.financing.surcharge)})</span><strong>${m(t.credit)}</strong></div>
+      <div class="kv"><span>Cuota inicial de ${Fmt.pct(CONFIG.financing.downPct)}, pago único al momento de la firma</span><strong>${m(t.down)}</strong></div>
+      <div class="kv"><span>Saldo a financiar</span><strong>${m(t.balance)}</strong></div>
+      <div class="kv"><span>${n} cuotas mensuales iguales, con débito automático bancario</span><strong>${m(t.installment)}</strong></div>
+      ${gap !== 0 ? `<p class="notes">Las ${n} cuotas redondeadas suman ${m(t.installment * n)}, con una diferencia de ${m(gap)} respecto al saldo. No se aplicó ningún ajuste.</p>` : ''}`
+    : `
+      <div class="kv"><span>Prima total anual al contado</span><strong>${m(t.cash)}</strong></div>
+      <div class="kv"><span>Ahorro frente al crédito</span><strong>${m(t.surcharge)}</strong></div>`}
+    <h3>Condiciones</h3>
+    <ul class="notes">
+      <li>Oferta firme por ${CONFIG.validityDays} días calendario desde la fecha de emisión. Emisión inmediata de la póliza.</li>
+      <li>Todas las primas son anuales. Importes en USD, salvo la franquicia de CARNUR, expresada en Bs; no se realizaron conversiones de moneda.</li>
+      <li>El cálculo no incluye intereses, impuestos, comisiones ni cargos distintos de los detallados.</li>
+      <li>La suma asegurada total es un indicador aritmético de categorías distintas, no una suma asegurada única.</li>
+      <li>Este documento es un resumen comercial y no reemplaza el condicionado de la póliza.</li>
+    </ul>
+    <div class="sign"><div>Asesor comercial</div><div>Aceptación del cliente</div></div>`;
+  };
+  return { render };
+})();
+</script>
+
+<script>
+/* ============ 5. INTERFAZ Y EVENTOS ============ */
+'use strict';
+const App = (() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const m = Fmt.money, e = Fmt.esc, F = CONFIG.financing;
+  const touched = new Set(), closed = new Set();
+  let example = false, model = null, lastFocus = null;
+
+  const todayISO = () => { const d = new Date(), p = n => String(n).padStart(2, '0'); return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`; };
+  const fid = (pid, k) => `${pid}-${k}`;
+
+  /* ---- Construcción de formularios ---- */
+  const fieldHTML = (pid, p, f) => {
+    const id = fid(pid, f.key), msg = id + '-msg', data = `data-p="${pid}" data-k="${f.key}"`;
+    if (f.type === 'check') return `<div class="field"><label class="chk"><input type="checkbox" id="${id}" ${data}><span>${e(f.label)} (+${Fmt.rate(p[f.rateKey])} anual)</span></label></div>`;
+    if (f.type === 'radio') return `<div class="field" role="radiogroup" aria-labelledby="${id}-l" aria-describedby="${msg}"><span class="lbl" id="${id}-l">${e(f.label)}</span><div class="opts">${
+      f.options.map(o => `<label class="opt"><input type="radio" name="${id}" value="${o.value}" ${data}><span>${e(o.label)} ${Fmt.rate(p.rates[o.value])}</span></label>`).join('')
+    }</div><small class="msg" id="${msg}"></small></div>`;
+    return `<div class="field"><label class="lbl" for="${id}">${e(f.label)}</label><div class="inp">${f.cur ? `<span>${f.cur}</span>` : ''}<input type="text" id="${id}" inputmode="${f.type === 'money' ? 'decimal' : 'numeric'}" ${data} aria-describedby="${msg}"></div><small class="msg" id="${msg}"></small></div>`;
+  };
+
+  const buildCards = () => {
+    $('#cards').innerHTML = CONFIG.order.map(pid => {
+      const p = CONFIG.products[pid];
+      return `<article class="card" data-card="${pid}" data-active="false">
+        <header><div><h3>${e(p.name)}</h3><p>${e(p.title)}</p></div>
+          <label class="switch"><input type="checkbox" data-toggle="${pid}" aria-label="Incluir ${e(p.name)} en la cotización"><span class="track"></span><span>Incluir</span></label></header>
+        <p class="scope">${e(p.blurb)}</p>
+        <fieldset disabled>${p.fields.map(f => fieldHTML(pid, p, f)).join('')}</fieldset>
+        <div class="result" data-result="${pid}" aria-live="polite"></div></article>`;
+    }).join('');
+    $('#payOpts').innerHTML = CONFIG.payments.map(p => `<label class="opt"><input type="radio" name="payment" value="${p.value}"${p.value === CONFIG.defaultPayment ? ' checked' : ''}><span>${p.label}</span></label>`).join('');
+    $('#decisions').innerHTML = CONFIG.decisions.map(d => `<li>${e(d)}</li>`).join('');
+  };
+
+  /* ---- Lectura del estado desde el DOM ---- */
+  const readValues = pid => Object.fromEntries(CONFIG.products[pid].fields.map(f => {
+    const el = f.type === 'radio' ? $(`input[name="${fid(pid, f.key)}"]:checked`) : $('#' + fid(pid, f.key));
+    return [f.key, f.type === 'check' ? el.checked : f.type === 'radio' ? (el ? el.value : '') : Calc.parseAmount(el.value)];
+  }));
+  const readState = () => ({
+    payment: $('input[name="payment"]:checked').value,
+    client: { name: $('#client').value.trim(), doc: $('#clientDoc').value.trim(), exec: $('#exec').value.trim() },
+    products: Object.fromEntries(CONFIG.order.map(pid => [pid, { active: $(`[data-toggle="${pid}"]`).checked, values: readValues(pid) }]))
+  });
+
+  /* ---- Renderizado ---- */
+  const cardResult = q => !q ? '<p class="empty">Producto no incluido.</p>'
+    : !q.valid ? '<p class="empty">Completa los datos para calcular la prima.</p>'
+    : `<div class="prem"><span>Prima anual al contado</span><strong>${m(q.fin.cash)}</strong></div>${View.parts(q)}
+       <dl class="plan"><div><dt>A crédito (+${Fmt.pct(F.surcharge)})</dt><dd>${m(q.fin.credit)}</dd></div>
+       <div><dt>Cuota inicial (${Fmt.pct(F.downPct)})</dt><dd>${m(q.fin.down)}</dd></div>
+       <div><dt>${F.installments} cuotas mensuales</dt><dd>${m(q.fin.installment)}</dd></div></dl>`;
+
+  const summaryHTML = ({ quotes, totals: t, state }) => {
+    const head = '<h2>Resumen consolidado</h2>';
+    if (!quotes.length) return head + '<p class="empty">Incluye al menos un producto para ver la prima y el plan de pago.</p>';
+    const valid = quotes.filter(q => q.valid), pending = quotes.filter(q => !q.valid);
+    const lead = `<p class="lead">${valid.length} de ${quotes.length} productos calculados${pending.length ? `. Pendientes: ${pending.map(q => e(q.name)).join(', ')}` : ''}.</p>`;
+    if (!valid.length) return head + lead + '<p class="empty">Completa los datos de los productos incluidos.</p>';
+    const credit = state.payment === 'credit';
+    const label = CONFIG.payments.find(p => p.value === state.payment).label;
+    return `${head}${lead}
+      <div class="pay"><span>Total a pagar (${label})</span><strong class="big">${m(t.payable)}</strong></div>
+      <dl class="srows">
+        <div><dt>Suma asegurada combinada*</dt><dd>${m(t.insured)}</dd></div>
+        <div><dt>Prima anual al contado</dt><dd>${m(t.cash)}</dd></div>
+        <div><dt>Prima anual a crédito</dt><dd>${m(t.credit)}</dd></div>
+        <div><dt>Recargo por crédito</dt><dd>${m(t.surcharge)}</dd></div>
+        <div><dt>Cuota inicial</dt><dd>${credit ? m(t.down) : 'N/A'}</dd></div>
+        <div><dt>${t.installments} cuotas mensuales</dt><dd>${credit ? m(t.installment) : 'N/A'}</dd></div>
+      </dl>
+      <p class="save">Pagar al contado ahorra ${m(t.surcharge)} frente al crédito.</p>
+      <table class="mini"><thead><tr><th scope="col">Producto</th><th scope="col">Contado</th><th scope="col">Crédito</th></tr></thead><tbody>${
+        quotes.map(q => q.valid ? `<tr><th scope="row">${e(q.name)}</th><td>${Fmt.num(q.fin.cash)}</td><td>${Fmt.num(q.fin.credit)}</td></tr>` : `<tr><th scope="row">${e(q.name)}</th><td colspan="2">Pendiente</td></tr>`).join('')
+      }</tbody></table>
+      <p class="fine">*Suma aritmética de valores de categorías distintas; no es una suma asegurada única. Importes en USD.</p>`;
+  };
+
+  const detailHTML = quotes => {
+    const valid = quotes.filter(q => q.valid);
+    if (!valid.length) return '<p class="empty">El detalle de coberturas aparece cuando un producto tiene todos sus datos.</p>';
+    return valid.map(q => `<details class="panel det" data-id="${q.id}"${closed.has(q.id) ? '' : ' open'}><summary>${e(q.name)} <small>${e(q.title)}</small></summary>${View.table(q)}${View.benefits(q)}</details>`).join('');
+  };
+
+  const updateMessages = (state, quotes) => {
+    for (const pid of CONFIG.order) {
+      const q = quotes.find(x => x.id === pid), p = CONFIG.products[pid];
+      for (const f of p.fields) {
+        const msg = $('#' + fid(pid, f.key) + '-msg');
+        if (!msg) continue;
+        const err = q && !q.valid ? q.errors[f.key] : null, show = err && touched.has(`${pid}.${f.key}`);
+        const v = state.products[pid].values[f.key];
+        msg.className = 'msg' + (show ? ' err' : '');
+        msg.textContent = show ? err : (f.type === 'money' && Number.isFinite(v) && v > 0 ? `= ${m(v, f.cur)}` : '');
+        const input = f.type === 'radio' ? null : $('#' + fid(pid, f.key));
+        if (input) input.setAttribute('aria-invalid', show ? 'true' : 'false');
+      }
+    }
+  };
+
+  const render = () => {
+    const state = readState(), run = Calc.run(state, CONFIG);
+    const issue = $('#issue').value, issueOk = !!Calc.parseISO(issue), expiry = issueOk ? Calc.addDays(issue, CONFIG.validityDays) : null;
+    model = { state, ...run, issue, expiry, example, canIssue: issueOk && run.quotes.length > 0 && run.quotes.every(q => q.valid) };
+
+    for (const pid of CONFIG.order) {
+      const on = state.products[pid].active, card = $(`[data-card="${pid}"]`);
+      card.dataset.active = on;
+      $('fieldset', card).disabled = !on;
+      $(`[data-result="${pid}"]`).innerHTML = cardResult(run.quotes.find(q => q.id === pid));
+    }
+    updateMessages(state, run.quotes);
+    $('#sumBody').innerHTML = summaryHTML(model);
+    $('#detail').innerHTML = detailHTML(run.quotes);
+    $('#expiryMsg').textContent = expiry ? `Vigencia hasta ${Fmt.date(expiry)}` : 'Indica una fecha válida.';
+    $('#btnProforma').disabled = !model.canIssue;
+    $('#issueHint').textContent = model.canIssue ? '' : !issueOk ? 'Indica una fecha de emisión válida.' : !run.quotes.length ? 'Incluye al menos un producto.' : 'Completa los productos incluidos.';
+    $('#exampleBadge').hidden = !example;
+  };
+
+  /* ---- Acciones ---- */
+  const loadExample = () => {
+    const ex = CONFIG.example;
+    $('#client').value = ex.client.name; $('#clientDoc').value = ex.client.doc; $('#exec').value = ex.client.exec;
+    $(`input[name="payment"][value="${ex.payment}"]`).checked = true;
+    for (const pid of CONFIG.order) {
+      $(`[data-toggle="${pid}"]`).checked = true;
+      for (const f of CONFIG.products[pid].fields) {
+        const v = ex.values[pid][f.key];
+        if (f.type === 'check') $('#' + fid(pid, f.key)).checked = v;
+        else if (f.type === 'radio') $(`input[name="${fid(pid, f.key)}"][value="${v}"]`).checked = true;
+        else $('#' + fid(pid, f.key)).value = String(v).replace('.', ',');
+      }
+    }
+    touched.clear(); example = true; render();
+  };
+
+  const trap = ev => {
+    if (ev.key === 'Escape') return closeProforma();
+    if (ev.key !== 'Tab') return;
+    const b = [$('#btnPrint'), $('#btnClose')], i = b.indexOf(document.activeElement);
+    ev.preventDefault();
+    b[(i + (ev.shiftKey ? -1 : 1) + b.length) % b.length].focus();
+  };
+  const openProforma = () => {
+    if (!model || !model.canIssue) return;
+    $('#sheet').innerHTML = Proforma.render({ ...model, quotes: model.quotes });
+    lastFocus = document.activeElement;
+    $('#proforma').hidden = false;
+    document.body.classList.add('modal-open');
+    document.addEventListener('keydown', trap);
+    $('#btnPrint').focus();
+  };
+  function closeProforma() {
+    $('#proforma').hidden = true;
+    document.body.classList.remove('modal-open');
+    document.removeEventListener('keydown', trap);
+    if (lastFocus) lastFocus.focus();
+  }
+
+  const init = () => {
+    buildCards();
+    $('#issue').value = todayISO();
+    const form = $('#quoteForm');
+    form.addEventListener('submit', ev => ev.preventDefault());
+    const onChange = ev => {
+      const t = ev.target;
+      if (t.dataset.k) touched.add(`${t.dataset.p}.${t.dataset.k}`);
+      if (example && !t.matches('[name="payment"], #issue')) example = false;
+      render();
+    };
+    form.addEventListener('input', onChange);
+    form.addEventListener('change', onChange);
+    form.addEventListener('focusout', ev => { if (ev.target.dataset && ev.target.dataset.k) { touched.add(`${ev.target.dataset.p}.${ev.target.dataset.k}`); render(); } });
+    form.addEventListener('reset', () => setTimeout(() => { $('#issue').value = todayISO(); touched.clear(); closed.clear(); example = false; render(); }, 0));
+    $('#detail').addEventListener('toggle', ev => { const d = ev.target; if (d.dataset && d.dataset.id) d.open ? closed.delete(d.dataset.id) : closed.add(d.dataset.id); }, true);
+    $('#btnExample').addEventListener('click', loadExample);
+    $('#btnProforma').addEventListener('click', openProforma);
+    $('#btnPrint').addEventListener('click', () => window.print());
+    $('#btnClose').addEventListener('click', closeProforma);
+    render();
+  };
+  init();
+  return { render };
+})();
+</script>
+</body>
+</html>
